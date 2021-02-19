@@ -16,7 +16,9 @@ def run_all(papernumber):
 	for author in authors:
 		this_author_text = author.text
 		if this_author_text != '':
-			all_authors_str = all_authors_str + '[[' + this_author_text[:-1] + ']], '
+			if this_author_text[-1] == ';':
+				this_author_text = this_author_text[:-1]
+			all_authors_str = all_authors_str + '[[' + this_author_text + ']], '
 	all_authors_str = all_authors_str[:-2]
 	pyperclip.copy(all_authors_str)
 	print(f'The authors are: {all_authors_str}')
