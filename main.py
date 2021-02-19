@@ -45,15 +45,20 @@ def run_all(papernumber):
 	article_text = re.sub('.tag{..}', '', article_text).strip()
 	pyperclip.copy(article_text)
 
-	input("Article is in your clipboard now. Please expand the references header. Press Enter to continue...")
+	input("Article is in your clipboard now. Press Enter to continue...")
 	# Get the references...
 	# Open the reference header references-header
+	ref_header = driver.find_element_by_id('references-header')
+	ref_header.click()
+
 	references = driver.find_elements_by_class_name('reference-container')
 	# Need to add all strings
 	all_refs = ''
 	for reference in references:
 		this_text = reference.text
 		if this_text != '':
+			end_of_ref = this_text.find('\n')
+			this_text = this_text[:end_of_ref+1]
 			all_refs = all_refs + this_text
 
 	pyperclip.copy(all_refs)
