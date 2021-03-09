@@ -7,7 +7,7 @@ import click
 @click.command()
 @click.argument('papernumber')
 def run_all(papernumber):
-	driver = webdriver.Firefox(executable_path=r'C:\Users\c.tarver\Desktop\geckodriver-v0.29.0-win64\geckodriver.exe')
+	driver = webdriver.Firefox(executable_path=r'C:\Users\c.tarver\Documents\geckodriver-v0.29.0-win64\geckodriver.exe')
 	url =  'https://ieeexplore.ieee.org/document/' + papernumber
 	driver.get(url)
 
@@ -61,6 +61,11 @@ def run_all(papernumber):
 		if this_text != '':
 			end_of_ref = this_text.find('\n')
 			this_text = this_text[:end_of_ref+1]
+			# Look for title to wrap in [[]] for Roam. Assumes Articles and not books
+			index_of_title = this_text.find('"') # Find start of article.
+			index_of_title_end = this_text.rfind('"') # Find end of article title
+			if index_of_title:
+				this_text = this_text[:index_of_title+1] + '[[' + this_text[index_of_title+1:index_of_title_end] + ']]' + this_text[index_of_title_end+1:]
 			all_refs = all_refs + this_text
 
 	pyperclip.copy(all_refs)
