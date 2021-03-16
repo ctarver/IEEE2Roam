@@ -64,7 +64,7 @@ def run_all(papernumber):
 			# Look for title to wrap in [[]] for Roam. Assumes Articles and not books
 			index_of_title = this_text.find('"') # Find start of article.
 			index_of_title_end = this_text.rfind('"') # Find end of article title
-			if index_of_title:
+			if index_of_title != -1:
 				this_text = this_text[:index_of_title+1] + '[[' + this_text[index_of_title+1:index_of_title_end] + ']]' + this_text[index_of_title_end+1:]
 			all_refs = all_refs + this_text
 
